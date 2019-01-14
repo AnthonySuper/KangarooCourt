@@ -1,0 +1,4 @@
+packages:
+  - kangaroo-court-common/
+  - kangaroo-court-server/
+resolver: lts-13.3
