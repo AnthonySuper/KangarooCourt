@@ -174,15 +174,13 @@ module KangarooCourt.LobbyServer where
                      => PlayerId 
                      -> Broker Text Lobby LobbyMessageI
                      -> t
-                     -> IO () 
+                     -> IO ()
     runBrokerSession pid be t = do
         let loop = runBrokerSession pid be t
         putStrLn $ "Waiting on a broker message..."
         m <- recvBrokerCommand t
         putStrLn $ "Got a broker message: " ++ show m
-        r <- case m of
-            Nothing -> pure BadMessage
-            Just m' -> runBrokerCommand pid be m' 
+        r <- maybe (pure BadMessage) (runBrokerCommand pid be) m 
         case r of
             JoinedLobby id be -> do
                 sendBrokerResponse t (JoinedLobby id ())
