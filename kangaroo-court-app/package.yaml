@@ -1,6 +1,6 @@
-name:                kangaroo-court-server
+name:                kangaroo-court-app
 version:             0.1.0.0
-github:              "githubuser/kangaroo-court-server"
+github:              "githubuser/kangaroo-court-app"
 license:             BSD3
 author:              "Author name here"
 maintainer:          "example@example.com"
@@ -17,27 +17,27 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/kangaroo-court-server#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/kangaroo-court-app#readme>
 
 dependencies:
 - base >= 4.7 && < 5
 - kangaroo-court-common
-- transformers
-- mtl
-- lens
-- generic-lens
-- containers
+- gloss
 - text
 - bytestring
-- aeson
-- stm
 - network
+- containers
+- brick
+- vty
+- lens
+- generic-lens
+- transformers
 
 library:
   source-dirs: src
 
 executables:
-  kangaroo-court-server-exe:
+  kangaroo-court-app-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -45,10 +45,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - kangaroo-court-server
+    - kangaroo-court-app
 
 tests:
-  kangaroo-court-server-test:
+  kangaroo-court-app-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -56,4 +56,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - kangaroo-court-server
+    - kangaroo-court-app

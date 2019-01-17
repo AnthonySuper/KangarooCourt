@@ -38,6 +38,8 @@ module KangarooCourt.Command where
         -- ^ The given player rejects a "but wait" as being illegitimate
         | GuessAnimal AnimalCard
         -- ^ The given player tries to guess their animal
+        | GameOver
+        -- ^ The game has ended
         deriving (Show, Read, Eq, Ord, Generic)
 
     instance FromJSON GameEvent
@@ -48,4 +50,5 @@ module KangarooCourt.Command where
         getGameEvent :: m (PlayerId, GameEvent)
         -- ^ Get the most recent event in the game
 
-    
+    isGameOver GameOver = True
+    isGameOver _ = False

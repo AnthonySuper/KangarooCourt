@@ -26,3 +26,5 @@ module KangarooCourt.GameEval where
     instance (MonadKangarooCourtPlaying m) =>
         (MonadKangarooCourtPlaying (MonadGameEval m)) where
              getGameEvent = lift getGameEvent
+
+    

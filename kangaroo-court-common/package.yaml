@@ -26,6 +26,9 @@ dependencies:
 - generic-lens
 - lens
 - bytestring
+- containers
+- binary
+- network
 
 library:
   source-dirs: src

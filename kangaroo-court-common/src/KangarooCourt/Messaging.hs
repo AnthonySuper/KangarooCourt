@@ -15,6 +15,7 @@ module KangarooCourt.Messaging where
     sendJSONMessage t a =
         sendMessage t (encode a)
 
-    recvJSONMessage t =
-        fmap decode . recvMessage
+    recvJSONMessage t = do
+        m <- recvMessage t
+        pure $ decode m
     
