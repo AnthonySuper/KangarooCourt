@@ -52,6 +52,14 @@ module KangarooCourt.GameCommunicator where
         -- events which the client cannot know about!
         } deriving (Generic)
 
+    makeGameCommunicator = 
+        GameCommunicator <$> newTQueue <*> newBroadcastTChan
+
+    makeGameCommunicatorIO
+        = GameCommunicator 
+        <$> newTQueueIO
+        <*> newBroadcastTChanIO
+        
     sendPlayerEvent :: (MonadIO m)
                     => GameCommunicator 
                     -> PlayerId

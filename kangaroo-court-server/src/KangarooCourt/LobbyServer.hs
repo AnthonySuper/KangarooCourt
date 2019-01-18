@@ -165,7 +165,11 @@ module KangarooCourt.LobbyServer where
                     GameMessage (GameStarted comm) -> do
                         sendGameMessage t (GameMessage $ GameStarted ())
                         killThread stid
-                        startGameCommunication pid t comm
+                        comm' <- forkReadCom comm
+                        startGameCommunication pid t comm'
+
+    forkReadCom (GameCommunicator q t) = atomically $ 
+        GameCommunicator q <$> cloneTChan t
 
     runLobbySessionRecv be pid t = forever $ do
         putStrLn $ 
@@ -191,6 +195,17 @@ module KangarooCourt.LobbyServer where
                 writeTChan (channel be) $ 
                 GameMessage $ 
                 ChatMessage pid chat
+        inner StartGame = do
+            (c, l) <- atomically $ do
+                gc <- makeGameCommunicator
+                writeTChan (channel be) $
+                    GameMessage $ GameStarted gc
+                r <- readTVar (info be)
+                pure (gc, r)
+            forkIO $ (evalGame c l *> pure ())
+            pure ()
+            
+            
 
             
     startGameCommunication pid t comm = do
