@@ -15,6 +15,7 @@ module KangarooCourt.GameRunner where
     import Data.Generics.Product
     import Data.Generics.Sum
     import Data.Map.Strict (Map)
+    import Data.Text (Text)
 
     type Checker m =
         ( MonadState ServerState m
@@ -37,7 +38,7 @@ module KangarooCourt.GameRunner where
     data ServerCommand
         = DoNothing
         -- ^ No further action must be taken
-        | WantJobCard
+        | WantRoutineCard
         -- ^ We want a job card
         | EndGame (Map PlayerId Int)
         -- ^ The game has ended with the given score map
@@ -85,9 +86,9 @@ module KangarooCourt.GameRunner where
                     -> m (ServerCommand, GameEvent)
     performRoutine' pid e = do
         ensure' $ isTurn pid
-        ensure' $ isWaitingPerform
+        ensure' isWaitingPerform
         modify performRoutine
-        pure (WantJobCard, PerformRoutine e)
+        pure (WantRoutineCard, PerformRoutine e)
 
     guessAnimal' :: (Checker m)
                  => PlayerId
@@ -95,13 +96,20 @@ module KangarooCourt.GameRunner where
                  -> m (ServerCommand, GameEvent)
     guessAnimal' pid ac = do
         ensure' $ isTurn pid
-        ensure' $ isWaitingPerform
+        ensure' isWaitingPerform
         s <- get
         case guessAnimal ac pid s of
             Left e -> withEndGame e ac
             Right s -> do
                 put s
                 noCommand' $ GuessAnimal ac
+
+    sendChat' :: (Checker m)
+              => PlayerId
+              -> Text
+              -> m (ServerCommand, GameEvent)
+    sendChat' pid t =
+        noCommand' $ SendGameChat t
 
     withEndGame e ac = pure (EndGame map, GuessAnimal ac)
         where

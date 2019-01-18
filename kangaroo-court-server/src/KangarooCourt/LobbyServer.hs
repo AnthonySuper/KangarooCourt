@@ -25,6 +25,7 @@ module KangarooCourt.LobbyServer where
     import Control.Concurrent
     import Data.Foldable
     import KangarooCourt.GameEval
+    import KangarooCourt.GameCommunicator
 
     -- | Type alias for internal lobby messages
     type LobbyMessageI =

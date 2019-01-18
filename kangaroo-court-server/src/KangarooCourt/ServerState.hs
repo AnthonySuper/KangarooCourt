@@ -15,6 +15,7 @@ module KangarooCourt.ServerState  where
     import Data.Generics.Sum
     import Data.Ratio ((%))
 
+
     import Data.Map.Strict (Map)
     import qualified Data.Map.Strict as Map
 
@@ -133,6 +134,15 @@ module KangarooCourt.ServerState  where
         WaitForButWaits $ Map.singleton pid True
     performRoutineS _ a = a
 
+    dealRoutineCardR :: RoundStage -> RoundStage
+    dealRoutineCardR WaitForDraw = WaitForPerform
+    dealRoutineCardR a = a
+
+    dealRoutineCard :: ServerState -> ServerState
+    dealRoutineCard =
+        field @"roundState" . field @"roundStage" %~
+            dealRoutineCardR
+    
     -- | Set that the player has chosen to perform their routine.
     -- We then enter the routine-judging state, where players decide
     -- if they wish to "But wait!" the other player.
@@ -299,3 +309,4 @@ module KangarooCourt.ServerState  where
     hasAnimal :: AnimalCard -> PlayerId -> ServerState -> Bool
     hasAnimal ac pid = (pure ac ==) . 
         view (playerAt pid . field @"playerAnimal")
+    

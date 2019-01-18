@@ -40,6 +40,8 @@ module KangarooCourt.Command where
         -- ^ The given player tries to guess their animal
         | GameOver
         -- ^ The game has ended
+        | SendGameChat Text
+        -- ^ Somebody has sent a chat message
         deriving (Show, Read, Eq, Ord, Generic)
 
     instance FromJSON GameEvent
