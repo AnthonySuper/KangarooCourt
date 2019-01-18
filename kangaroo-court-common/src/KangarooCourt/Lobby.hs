@@ -8,7 +8,6 @@ module KangarooCourt.Lobby where
     import KangarooCourt.Command
     import KangarooCourt.Deck
 
-
     data Lobby
         = Lobby
         { name :: Text

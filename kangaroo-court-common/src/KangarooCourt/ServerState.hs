@@ -6,6 +6,8 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+-- | Should be called "KangarooCourt.GameState".
+-- Whoops.
 module KangarooCourt.ServerState  where
     import GHC.Generics
     import KangarooCourt.Card

@@ -202,11 +202,8 @@ module KangarooCourt.LobbyServer where
                     GameMessage $ GameStarted gc
                 r <- readTVar (info be)
                 pure (gc, r)
-            forkIO $ (evalGame c l *> pure ())
+            forkIO (evalGame c l *> pure ())
             pure ()
-            
-            
-
             
     startGameCommunication pid t comm = do
         r <- forkIO recvLoop
